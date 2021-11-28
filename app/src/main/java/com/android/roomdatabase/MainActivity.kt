@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import com.android.roomdatabase.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -20,14 +19,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.insertContact(Contact(1, "s", 20, "1234567890"))
+        lifecycleScope.launchWhenCreated {
+            viewModel.insertContact(Contact(1, "s", 20, "1234567890"))
+        }
         binding.getAllContacts.setOnClickListener {
             getAllContacts()
         }
     }
 
     private fun getAllContacts() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             viewModel.contactsLiveData.collect {
                 Log.d("DB", it.toString())
             }

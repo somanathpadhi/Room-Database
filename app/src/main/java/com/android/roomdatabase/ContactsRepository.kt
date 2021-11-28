@@ -1,6 +1,5 @@
 package com.android.roomdatabase
 
-import java.util.concurrent.Flow
 import javax.inject.Inject
 
 class ContactsRepository @Inject constructor(private val dao: ContactsDao) {
